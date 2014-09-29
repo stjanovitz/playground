@@ -1,4 +1,6 @@
-Test of naive implementation of linear regression
+Test of naive implementation of linear regression. That is, uses batch gradient descent
+instead of stochastic, uses iterations where some matrix operations could be, ...
+
 Implemented logistic regression model results:
 *	10,000 iterations:
  *	E_in: 0.5847
