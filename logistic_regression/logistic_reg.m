@@ -12,12 +12,10 @@ e_in = 0;
 step = 0.00001;
 gradient_threshold = 0.001;
 
-
 for t = 1:max_its
-    gradient = zeros(1,14);
-    for n = 1:size(X,1)
-       gradient = gradient + Y(n)*X(n,:) ./ (1 + exp(Y(n)*transpose(w)*transpose(X(n,:))));
-    end
+    gradient = zeros(1,size(X,2));
+    divisor = repmat((1 + exp(bsxfun(@times,Y,X)*w)),1,size(gradient,2));
+    gradient = gradient + sum(bsxfun(@times,Y,X) ./ divisor);
     gradient = (-1/size(X,1))*gradient;
     
     if (gradient <= gradient_threshold)
@@ -26,10 +24,7 @@ for t = 1:max_its
     w = w - step.*transpose(gradient);
 end
 
-for n = 1:size(X,1)
-   e_in = e_in + log(1 + exp(-Y(n)*transpose(w)*transpose(X(n,:))));
-end
+e_in = sum(log(1 + exp(bsxfun(@times,Y,X)*w)));
 e_in = e_in ./ size(X,1);
 
 end
-
