@@ -24,7 +24,7 @@ for t = 1:max_its
     w = w - step.*transpose(gradient);
 end
 
-e_in = sum(log(1 + exp(bsxfun(@times,Y,X)*w)));
+e_in = sum(log(1 + exp(bsxfun(@times,Y,X)*w*-1)));
 e_in = e_in ./ size(X,1);
 
 end
