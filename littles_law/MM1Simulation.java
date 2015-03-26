@@ -6,7 +6,7 @@ public class MM1Simulation {
 	//used to average performance measures. corresponding indexes to runLengths
 	static double throughputSum;
 	static double responseTimeSum;
-	static double queueLengthSum;
+	static double peopleInSystemSum;
 	static final int EXPERIMENT_REPEATS = 3;
 	 
 	static double clockTime = 0; //time in minutes
@@ -56,10 +56,10 @@ public class MM1Simulation {
 	private static void calcAndAddPerformanceMeasures() {
 		double throughput = serviceCompletions / clockTime;
 		double averageSystemResponseTime = (sumDeparture - sumArrival) / runLength;
-		double averageQueueLength = customerSeconds / clockTime;
+		double averagePeopleInSystem = customerSeconds / clockTime;
 		throughputSum += throughput;
 		responseTimeSum+= averageSystemResponseTime;
-		queueLengthSum += averageQueueLength;
+		peopleInSystemSum += averagePeopleInSystem;
 	}
 	
 	public static void resetExperiment(){
@@ -79,7 +79,7 @@ public class MM1Simulation {
 	public static void resetAfterRun(){
 		throughputSum = 0;
 		responseTimeSum = 0;
-		queueLengthSum = 0;
+		peopleInSystemSum = 0;
 		experimentNum = 0;
 		rand = new Random(seeds[experimentNum]); 
 	}
@@ -87,12 +87,12 @@ public class MM1Simulation {
 	private static void showResults() {
 		double throughput = throughputSum / (double) EXPERIMENT_REPEATS;
 		double averageSystemResponseTime = responseTimeSum / (double) EXPERIMENT_REPEATS;;
-		double averageQueueLength = queueLengthSum / (double) EXPERIMENT_REPEATS;;
+		double averagePeopleInSystem = peopleInSystemSum / (double) EXPERIMENT_REPEATS;;
 		System.out.println("Throughput: " + throughput);
 		System.out.println("Average system response time (w): " + averageSystemResponseTime + " minutes");
-		System.out.println("Average queue length: " + averageQueueLength + " customers");
+		System.out.println("Average number of people in the system: " + averagePeopleInSystem + " customers");
 		System.out.println("Average arrival rate * average system response time: " + (INTERARRIVAL_RATE * averageSystemResponseTime));
-		System.out.println("Difference between L and λ*w: " + Math.abs(averageQueueLength - (INTERARRIVAL_RATE * averageSystemResponseTime)));
+		System.out.println("Difference between L and λ*w: " + Math.abs(averagePeopleInSystem - (INTERARRIVAL_RATE * averageSystemResponseTime)));
 		System.out.println();
 	}
 
